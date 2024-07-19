@@ -1,0 +1,324 @@
+<!-- <!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Голосовой ассистент</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      margin: 10px;
+    }
+    #start-button {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #stop-button {
+      background-color: #f44336;
+      color: white;
+    }
+    #result {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    #status {
+      font-size: 16px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <h1>Голосовой ассистент </h1>
+  <button id="start-button">Начать слушать</button>
+  <button id="stop-button" disabled>Перестать слушать</button>
+  <p id="result"></p>
+  <p id="status"></p>
+
+  <script>
+    const assistantName = 'Акылай';
+    const startButton = document.getElementById('start-button');
+    const stopButton = document.getElementById('stop-button');
+    const result = document.getElementById('result');
+    const status = document.getElementById('status');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    let voices = [];
+
+    // Устанавливаем язык распознавания речи
+    recognition.lang = 'ru-RU';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    // Функция для загрузки доступных голосов
+    function populateVoiceList() {
+      voices = window.speechSynthesis.getVoices();
+    }
+
+    // Загружаем голоса при загрузке страницы и при изменении голосов
+    populateVoiceList();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = populateVoiceList;
+    }
+
+    // Обработчик нажатия на кнопку "Начать слушать"
+    startButton.addEventListener('click', () => {
+      recognition.start();
+      startButton.disabled = true;
+      stopButton.disabled = false;
+      result.textContent = '';
+      status.textContent = 'Слушаю...';
+    });
+
+    // Обработчик нажатия на кнопку "Перестать слушать"
+    stopButton.addEventListener('click', () => {
+      recognition.stop();
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      status.textContent = 'Прекратил слушать.';
+    });
+
+    // Обработчик события результата распознавания речи
+    recognition.addEventListener('result', (event) => {
+      const speechResult = event.results[0][0].transcript.toLowerCase();
+      result.textContent = `Вы сказали: ${speechResult}`;
+      processCommand(speechResult);
+    });
+
+    // Обработчик завершения распознавания речи
+    recognition.addEventListener('speechend', () => {
+      recognition.stop();
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      status.textContent = 'Прекратил слушать.';
+    });
+
+    // Обработчик ошибок распознавания речи
+    recognition.addEventListener('error', (event) => {
+      result.textContent = `Произошла ошибка при распознавании: ${event.error}`;
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      status.textContent = '';
+    });
+
+    // Функция для синтеза речи
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ru-RU';
+      // Находим голос для русского языка, если доступен
+      const selectedVoice = voices.find(voice => voice.lang === 'ru-RU') || voices[0];
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Функция для обработки команд
+    function processCommand(command) {
+      if (command.includes('привет')) {
+        speak('привет чем могу помочь');
+      } else if (command.includes('имя')) {
+        speak(`Меня зовут ${assistantName}.`);
+      } else if (command.includes('перестань слушать')) {
+        recognition.stop();
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        speak('Прекратил слушать.');
+      } else if (command.includes('который час')) {
+        const now = new Date();
+        const time = now.toLocaleTimeString('ru-RU');
+        speak(`Сейчас ${time}`);
+      } else if (command.includes('спасибо')) {
+        speak('Пожалуйста!');
+      } else if (command.includes('погода')) {
+        speak('Извините, я пока не умею сообщать погоду.');
+      } else if (command.includes('расскажи анекдот')) {
+        speak('колобок повесился, ахахахах!');
+      } else if (command.includes('кто ты воин')) {
+        speak('я ахилес сын белея');
+      }else {
+        speak('Извините, я не понял. Повторите, пожалуйста.');
+      }
+    }
+  </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Голосовой ассистент</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      margin: 10px;
+    }
+    #start-button {
+      background-color: #4CAF50;
+      color: white;
+    }
+    #stop-button {
+      background-color: #f44336;
+      color: white;
+    }
+    #result {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    #status {
+      font-size: 16px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <h1>Голосовой ассистент</h1>
+  <button id="start-button">Начать слушать</button>
+  <button id="stop-button" disabled>Перестать слушать</button>
+  <p id="result"></p>
+  <p id="status"></p>
+
+  <script>
+    const assistantName = 'Акылай';
+    const startButton = document.getElementById('start-button');
+    const stopButton = document.getElementById('stop-button');
+    const result = document.getElementById('result');
+    const status = document.getElementById('status');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    let voices = [];
+
+    // Устанавливаем язык распознавания речи
+    recognition.lang = 'ru-RU';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    // Функция для загрузки доступных голосов
+    function populateVoiceList() {
+      voices = window.speechSynthesis.getVoices();
+    }
+
+    // Загружаем голоса при загрузке страницы и при изменении голосов
+    populateVoiceList();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = populateVoiceList;
+    }
+
+    // Обработчик нажатия на кнопку "Начать слушать"
+    startButton.addEventListener('click', () => {
+      recognition.start();
+      startButton.disabled = true;
+      stopButton.disabled = false;
+      result.textContent = '';
+      status.textContent = 'Слушаю...';
+    });
+
+    // Обработчик нажатия на кнопку "Перестать слушать"
+    stopButton.addEventListener('click', () => {
+      recognition.stop();
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      status.textContent = 'Прекратил слушать.';
+    });
+
+    // Обработчик события результата распознавания речи
+    recognition.addEventListener('result', (event) => {
+      const speechResult = event.results[0][0].transcript.toLowerCase();
+      result.textContent = `Вы сказали: ${speechResult}`;
+      processCommand(speechResult);
+    });
+
+    // Обработчик завершения распознавания речи
+    recognition.addEventListener('speechend', () => {
+      recognition.stop();
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      status.textContent = 'Прекратил слушать.';
+    });
+
+    // Обработчик ошибок распознавания речи
+    recognition.addEventListener('error', (event) => {
+      result.textContent = `Произошла ошибка при распознавании: ${event.error}`;
+      startButton.disabled = false;
+      stopButton.disabled = true;
+      status.textContent = '';
+    });
+
+    // Функция для синтеза речи
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ru-RU';
+      // Находим мужской голос для русского языка, если доступен
+      const selectedVoice = voices.find(voice => voice.lang === 'ru-RU' && voice.name.includes('Male')) || voices.find(voice => voice.lang === 'ru-RU');
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Функция для обработки команд
+    function processCommand(command) {
+      if (command.includes('привет')) {
+        speak('привет чем могу помочь');
+      } else if (command.includes('имя')) {
+        speak(`Меня зовут ${assistantName}.`);
+      } else if (command.includes('перестань слушать')) {
+        recognition.stop();
+        startButton.disabled = false;
+        stopButton.disabled = true;
+        speak('Прекратил слушать.');
+      } else if (command.includes('который час')) {
+        const now = new Date();
+        const time = now.toLocaleTimeString('ru-RU');
+        speak(`Сейчас ${time}`);
+      } else if (command.includes('спасибо')) {
+        speak('Пожалуйста!');
+      } else if (command.includes('погода')) {
+        speak('Извините, я пока не умею сообщать погоду.');
+      } else if (command.includes('расскажи анекдот')) {
+        speak('колобок повесился, ахахахах!');
+      } else if (command.includes('кто ты воин')) {
+        speak('я ахилес сын белея');
+      } else {
+        speak('Извините, я не понял. Повторите, пожалуйста.');
+      }
+    }
+  </script>
+</body>
+</html>
